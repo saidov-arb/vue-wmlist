@@ -20,7 +20,7 @@
         <ul>
           <li v-for="item in data.groups">
             <!-- {{ item.group }} -->
-            <WMGroup :groupchar="item.group" :members="item.members" />
+            <WMGroup :groupchar="item.group" :members="item.members" :getFlag="getFlag"/>
           </li>
         </ul>
       </div>
@@ -43,10 +43,24 @@ export default {
       {}
     );
 
+    function getFlag(countryname){
+      let countryflag;
+      countryname = countryname.charAt(0).toLowerCase() + countryname.slice(1);
+
+      data.value.flags.forEach((flag)=>{
+        if(flag.country == countryname){
+          countryflag = flag.link;
+        }
+      })
+
+      return countryflag;
+    }
+
     return {
       data,
       error,
       loading,
+      getFlag
     };
   },
 };

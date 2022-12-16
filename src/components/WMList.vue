@@ -17,11 +17,27 @@
           </li>
         </ul> -->
         <h2>Groups</h2>
+        <input type="text" v-model="groupfilter" />
         <ul>
-          <li v-for="item in data.groups">
-            <!-- {{ item.group }} -->
-            <WMGroup :groupchar="item.group" :members="item.members" :getFlag="getFlag"/>
-          </li>
+          <div v-for="item in data.groups">
+            <li v-if="item.group === groupfilter">
+              <WMGroup
+                :groupchar="item.group"
+                :members="item.members"
+                :getFlag="getFlag"
+              />
+            </li>
+          </div>
+          <!--li v-for="item in data.groups">
+            < {{ item.group }} >
+            <div v-if="item.group">
+              <WMGroup
+                :groupchar="item.group"
+                :members="item.members"
+                :getFlag="getFlag"
+              />
+            </div>
+          </li-->
         </ul>
       </div>
     </div>
@@ -43,15 +59,17 @@ export default {
       {}
     );
 
-    function getFlag(countryname){
+    let groupfilter = ref('A');
+
+    function getFlag(countryname) {
       let countryflag;
       countryname = countryname.charAt(0).toLowerCase() + countryname.slice(1);
 
-      data.value.flags.forEach((flag)=>{
-        if(flag.country == countryname){
+      data.value.flags.forEach((flag) => {
+        if (flag.country == countryname) {
           countryflag = flag.link;
         }
-      })
+      });
 
       return countryflag;
     }
@@ -60,7 +78,8 @@ export default {
       data,
       error,
       loading,
-      getFlag
+      getFlag,
+      groupfilter,
     };
   },
 };
